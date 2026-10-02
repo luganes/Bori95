@@ -398,7 +398,7 @@ async function main() {
   }
 }
 
-// ⛱ bits del portal retro: reloj, contador de visitas y datos curiosos
+// bits del portal retro: reloj, contador de visitas y datos curiosos
 const FACTS = [
   "🇵🇷 Puerto Rico tiene 78 municipios. El más poblado es San Juan y el menos poblado es Culebra.",
   "🦪 Ponce es conocida como “La Perla del Sur”.",

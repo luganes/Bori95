@@ -1,4 +1,3 @@
-/* ⛱ BORI95 — tema portal retro Windows 95, inspirado en oldgame.cz */
 :root {
   --face: #c0c0c0;
   --hl: #ffffff;
@@ -23,7 +22,7 @@ body {
   background-image: repeating-linear-gradient(45deg, rgba(255,255,255,.03) 0 8px, transparent 8px 16px);
 }
 
-/* ---------- barra superior win95 ---------- */
+
 .win95bar {
   position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
   display: flex; justify-content: space-between; align-items: center;
@@ -41,7 +40,7 @@ body {
 }
 .wt-x { font-size: 10px; }
 
-/* ---------- menú ---------- */
+
 .menu {
   display: flex; gap: 4px; align-items: center; flex-wrap: wrap;
   background: var(--face);
@@ -58,14 +57,14 @@ body {
 .blink { animation: blink 1s steps(2) infinite; color: #c00000; font-weight: bold; }
 @keyframes blink { 50% { opacity: 0; } }
 
-/* ---------- marquesina ---------- */
+
 .ticker { background: #000; border-top: 2px solid var(--dk); border-bottom: 2px solid var(--dk); }
 .ticker marquee {
   color: var(--lime); font-family: "VT323", monospace; font-size: 20px;
   padding: 3px 0;
 }
 
-/* ---------- ventanas ---------- */
+
 .window {
   background: var(--face);
   border: 2px solid; border-color: var(--hl) var(--dk) var(--dk) var(--hl);
@@ -79,7 +78,7 @@ body {
 }
 .winbody { padding: 12px; }
 
-/* ---------- héroe ---------- */
+
 .hero-window { text-align: center; }
 .hero-body { background: #0c0e12; color: #fff; padding: 26px 14px; }
 .hero-badge {
@@ -100,7 +99,7 @@ body {
 .tag { background: var(--face); color: #000; font-size: 12px; font-weight: bold; padding: 4px 12px; border: 2px solid; border-color: var(--hl) var(--dk) var(--dk) var(--hl); }
 .dot { display: inline-block; width: 12px; height: 12px; margin-right: 6px; border: 1px solid #000; vertical-align: baseline; }
 
-/* ---------- layout juego ---------- */
+
 main { display: grid; grid-template-columns: 370px 1fr; gap: 14px; max-width: 1200px; margin: 0 auto; padding: 0 8px; }
 main .window { margin: 0; }
 @media (max-width: 880px) { main { grid-template-columns: 1fr; } }
@@ -144,7 +143,7 @@ fieldset.settings legend { font-weight: bold; padding: 0 6px; }
 #history li { display: flex; align-items: center; gap: 8px; background: #fff; border: 2px solid; border-color: var(--dk) var(--hl) var(--hl) var(--dk); padding: 5px 8px; font-size: 13px; }
 .swatch { width: 16px; height: 16px; flex-shrink: 0; border: 1px solid #000; }
 
-/* ---------- mapa ---------- */
+
 .map-body { padding: 8px; }
 #map { height: 70vh; min-height: 420px; background: #fff; border: 2px solid; border-color: var(--dk) var(--hl) var(--hl) var(--dk); }
 #map path { cursor: pointer; }
@@ -152,7 +151,7 @@ fieldset.settings legend { font-weight: bold; padding: 0 6px; }
 .muni-label { font-weight: 700; font-size: 11px; text-shadow: 0 0 3px #fff, 0 0 3px #fff; }
 .leaflet-container { font-family: Tahoma, sans-serif; }
 
-/* ---------- postales ---------- */
+
 .sec-sub { margin: 0 0 8px; font-size: 13px; font-weight: bold; }
 .slideshow { position: relative; height: 230px; overflow: hidden; background: #000; border: 2px solid; border-color: var(--dk) var(--hl) var(--hl) var(--dk); }
 .slide { position: absolute; inset: 0; opacity: 0; transition: opacity .8s; display: flex; align-items: flex-end; justify-content: center; background: linear-gradient(135deg, #0b3d91, #14532d); }
@@ -169,7 +168,7 @@ fieldset.settings legend { font-weight: bold; padding: 0 6px; }
 .dots button.on { background: var(--navy); }
 .photo-credit { text-align: center; font-size: 11px; color: #333; margin-top: 5px; }
 
-/* ---------- extras ---------- */
+
 .extras { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; max-width: 1200px; margin: 0 auto; padding: 0 8px; }
 .extras .window { margin: 14px 0 0; }
 @media (max-width: 880px) { .extras { grid-template-columns: 1fr; } }
@@ -186,7 +185,7 @@ fieldset.settings legend { font-weight: bold; padding: 0 6px; }
 }
 .small { font-size: 12px; }
 
-/* ---------- ayuda / footer / taskbar ---------- */
+
 .help-list { margin: 0; padding-left: 20px; font-size: 13px; }
 .help-list li { margin-bottom: 5px; }
 footer { text-align: center; color: #fff; font-size: 12px; padding: 16px 8px 8px; }
@@ -205,6 +204,6 @@ footer a { color: var(--yellow); }
 }
 .task-clock { font-size: 12px; padding: 4px 10px; border: 2px solid; border-color: var(--dk) var(--hl) var(--hl) var(--dk); }
 
-/* confeti */
+
 .confetti { position: fixed; top: -14px; width: 11px; height: 16px; z-index: 2000; pointer-events: none; animation: caida 3.2s ease-in forwards; }
 @keyframes caida { to { transform: translateY(105vh) rotate(720deg); opacity: .7; } }
