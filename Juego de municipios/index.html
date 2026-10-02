@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>⛱ BORI95 — ¡Adivina el Municipio! · juegos gratis de Puerto Rico</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- barra de título estilo Windows 95 -->
+<div class="win95bar">
+  <span class="wt-name">⛱ bori95 — juegos gratis de Puerto Rico</span>
+  <span class="wt-btns"><span class="wt-b">_</span><span class="wt-b">□</span><span class="wt-b wt-x">✕</span></span>
+</div>
+
+<!-- menú del portal -->
+<nav class="menu">
+  <a href="#jugar">🎯 Jugar</a>
+  <a href="#postales">🌴 Postales</a>
+  <a href="#ranking">🏆 Ranking</a>
+  <a href="#ayuda">❓ Ayuda</a>
+  <span class="menu-right">v2.0 <blink class="blink">¡GRATIS!</blink></span>
+</nav>
+
+<!-- marquesina -->
+<div class="ticker">
+  <marquee scrollamount="6">★ ¡BIENVENIDO A BORI95! ★ …el portal con los mejores juegos de Puerto Rico… ★ ADIVINA EL MUNICIPIO SECRETO entre los 78 ★ juega CON PISTAS o A CIEGAS ★ sin instalar nada ★ ¡WEPA! ★</marquee>
+</div>
+
+<!-- héroe -->
+<header class="window hero-window">
+  <div class="wintitle"><span>★ ¡Adivina el Municipio! ★</span><span class="wt-btns"><span class="wt-b">_</span><span class="wt-b wt-x">✕</span></span></div>
+  <div class="winbody hero-body">
+    <div class="hero-badge">🎮 JUEGO Nº 001 · 78 MUNICIPIOS · <span class="blink">¡NUEVO!</span></div>
+    <h1 class="pixel">ADIVINA<br />EL MUNICIPIO</h1>
+    <p class="hero-sub">Te escondo un municipio secreto de Puerto Rico… ¿puedes encontrarlo en el mapa? 🕵️🐸</p>
+    <a href="#jugar" class="play-btn">▶ JUGAR YA</a>
+    <div class="legend" id="legend">
+      <span class="tag"><i class="dot" style="background:#16a34a"></i>¡Correcto!</span>
+      <span class="tag"><i class="dot" style="background:#dc2626"></i>Cerca = rojo</span>
+      <span class="tag"><i class="dot" style="background:#2563eb"></i>Lejos = azul</span>
+    </div>
+  </div>
+</header>
+
+<main id="jugar">
+  <!-- ventana del juego -->
+  <section class="window game-window">
+    <div class="wintitle"><span>🎯 juego.exe — Adivina el Municipio</span><span class="wt-btns"><span class="wt-b">_</span><span class="wt-b">□</span><span class="wt-b wt-x">✕</span></span></div>
+    <div class="winbody">
+      <div class="status">
+        <div class="secret-box">🎯 Secreto: <strong id="secret-label">???</strong></div>
+        <div class="attempts-box">🔢 <strong id="attempts">0</strong><span id="attempts-max"></span></div>
+      </div>
+      <div class="attempts-bar"><div id="attempts-bar-fill"></div></div>
+
+      <fieldset class="settings">
+        <legend>⚙ Opciones</legend>
+        <label>🎭 Modo
+          <select id="mode-select">
+            <option value="pistas">🎨 Con pistas (color + distancia)</option>
+            <option value="ciego">🙈 A ciegas (sin color ni distancia)</option>
+          </select>
+        </label>
+        <label>⏱️ Intentos
+          <select id="max-select">
+            <option value="0">∞ Ilimitados</option>
+            <option value="10">10 intentos</option>
+            <option value="8">8 intentos</option>
+            <option value="5">5 intentos (difícil)</option>
+          </select>
+        </label>
+      </fieldset>
+
+      <div class="controls">
+        <input id="guess-input" list="municipios-list" placeholder="Escribe un municipio… ej. Ponce" autocomplete="off" />
+        <datalist id="municipios-list"></datalist>
+        <button id="guess-btn">🎯 ¡ADIVINAR!</button>
+        <div class="row-btns">
+          <button id="surrender-btn">🏳️ Rendirse</button>
+          <button id="restart-btn">↻ Nuevo juego</button>
+        </div>
+      </div>
+      <div id="message" class="message">Cargando mapa…</div>
+
+      <h3 class="pixel-sm">📜 HISTORIAL</h3>
+      <ul id="history"></ul>
+    </div>
+  </section>
+
+  <!-- ventana del mapa -->
+  <section class="window map-window">
+    <div class="wintitle"><span>🗺️ mapa.pr — Puerto Rico</span><span class="wt-btns"><span class="wt-b">_</span><span class="wt-b">□</span><span class="wt-b wt-x">✕</span></span></div>
+    <div class="winbody map-body">
+      <div id="map"></div>
+      <div class="hint" id="hint">💡 Escribe un municipio… ¡o haz <b>clic directo en el mapa</b>! 🖱️ Después de cada intento te digo distancia y dirección. Arriba a la derecha puedes cambiar entre Calles, Satélite, Mar y Topográfico. 🌊🛰️</div>
+    </div>
+  </section>
+</main>
+
+<!-- postales -->
+<section class="window" id="postales">
+  <div class="wintitle"><span>🌴 postales.exe — Postales de la Isla</span><span class="wt-btns"><span class="wt-b">_</span><span class="wt-b wt-x">✕</span></span></div>
+  <div class="winbody">
+    <p class="sec-sub">Toca una foto para jugar ese municipio 👆 <span class="blink">¡NUEVO!</span></p>
+    <div class="slideshow" id="slideshow">
+      <div class="slide active">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/El%20Morro%20Castle%2C%20San%20Juan%2C%20Puerto%20Rico.jpg?width=900" alt="Castillo El Morro" loading="lazy" onerror="this.remove()" />
+        <button class="caption" data-muni="San Juan">🏰 Castillo El Morro — <b>San Juan</b> 👆</button>
+      </div>
+      <div class="slide">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Culebra%20-%20Playa%20de%20Flamenco.jpg?width=900" alt="Playa Flamenco" loading="lazy" onerror="this.remove()" />
+        <button class="caption" data-muni="Culebra">🏖️ Playa Flamenco — <b>Culebra</b> 👆</button>
+      </div>
+      <div class="slide">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Puerto%20Rico%20El%20Yunque%201.jpg?width=900" alt="El Yunque" loading="lazy" onerror="this.remove()" />
+        <button class="caption" data-muni="Río Grande">🌿 Bosque El Yunque — <b>Río Grande</b> 👆</button>
+      </div>
+      <div class="slide">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/El%20Morro%20-%20Old%20San%20Juan%2C%20Puerto%20Rico.jpg?width=900" alt="Viejo San Juan" loading="lazy" onerror="this.remove()" />
+        <button class="caption" data-muni="San Juan">🧱 Murallas del Viejo San Juan — <b>San Juan</b> 👆</button>
+      </div>
+      <div class="slide">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Flamenco%20Beach%20%28right%29%20in%20Culebra%20Island%2C%20Puerto%20Rico.jpg?width=900" alt="Bahía Flamenco" loading="lazy" onerror="this.remove()" />
+        <button class="caption" data-muni="Fajardo">⛴️ El ferry sale de — <b>Fajardo</b> 👆</button>
+      </div>
+    </div>
+    <div class="dots" id="dots"></div>
+    <div class="photo-credit">📸 Fotos: Wikimedia Commons</div>
+  </div>
+</section>
+
+<!-- extras del portal -->
+<div class="extras">
+  <section class="window" id="ranking">
+    <div class="wintitle"><span>🏆 ranking.txt — Mejores jugadores</span></div>
+    <div class="winbody">
+      <ol class="rank-list">
+        <li>🏆 Victorias… <strong id="stat-wins">0</strong></li>
+        <li>🎮 Partidas… <strong id="stat-games">0</strong></li>
+        <li>🔥 Racha actual… <strong id="stat-streak">0</strong></li>
+        <li>⭐ Mejor racha… <strong id="stat-best">0</strong></li>
+      </ol>
+      <button id="reset-stats" class="linklike">🗑 borrar mis datos</button>
+    </div>
+  </section>
+
+  <section class="window">
+    <div class="wintitle"><span>💡 sabiasque.hlp — ¿Sabías que…?</span></div>
+    <div class="winbody">
+      <p id="fact-text" class="fact">Cargando dato curioso…</p>
+      <button id="fact-btn">🎲 Otro dato</button>
+    </div>
+  </section>
+
+  <section class="window">
+    <div class="wintitle"><span>📊 visitas.log — Libro de visitas</span></div>
+    <div class="winbody center">
+      <p>Eres el visitante Nº</p>
+      <div class="counter" id="counter">0000000</div>
+      <p class="small">👥 <span id="online">1</span> persona(s) jugando ahora</p>
+    </div>
+  </section>
+</div>
+
+<!-- ayuda -->
+<section class="window" id="ayuda">
+  <div class="wintitle"><span>❓ leeme.txt — Cómo jugar</span></div>
+  <div class="winbody">
+    <ol class="help-list">
+      <li><b>1.</b> La compu esconde 1 municipio secreto de los 78. 🤫</li>
+      <li><b>2.</b> Escribe un municipio y pulsa <b>¡ADIVINAR!</b>… ¡o haz <b>clic en el mapa</b>! 🖱️</li>
+      <li><b>3.</b> <span style="color:#16a34a"><b>VERDE</b></span> = ¡ganaste! <span style="color:#dc2626"><b>ROJO</b></span> = cerca · <span style="color:#2563eb"><b>AZUL</b></span> = lejos.</li>
+      <li><b>4.</b> Prueba el modo <b>🙈 A ciegas</b> o ponte <b>límite de intentos</b> si eres valiente.</li>
+      <li><b>5.</b> Toca las <b>🌴 postales</b> para probar ese municipio directamente.</li>
+    </ol>
+  </div>
+</section>
+
+<footer>
+  <p>« <a href="#jugar">anterior</a> | <a href="#postales">aleatorio</a> | <a href="#ranking">siguiente</a> »</p>
+  <p>⛱ <b>BORI95</b> © 1995–2026 · Hecho con Leaflet + datos abiertos · Se ve mejor a 800×600 · Funciona en Netscape 😉</p>
+</footer>
+
+<!-- barra de tareas -->
+<div class="taskbar">
+  <span class="start-btn">⊞ Start</span>
+  <span class="task-item">🎯 ¡Adivina el Municipio!</span>
+  <span class="task-clock" id="clock">--:--</span>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
